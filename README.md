@@ -2,6 +2,13 @@
 
 A very simple project switcher for VSCode.
 
+## Extension Commands
+
+This extension contributes the following command:
+- `project-switcher.switch`
+
+You can invoke this command using the Command Palette (Shift + Cmd + P on a Mac) and choosing `Project Switcher: Switch Projects` or by binding a key (see below for the provided keybinding).
+
 ## Extension Settings
 
 This extension contributes the following setting:
@@ -22,3 +29,16 @@ This extension contributes the following keybinding:
   "when": "!inQuickOpen"
 }
 ```
+
+## Installation
+
+To build the .VSIX file from source, you'll need the `vcse` package:
+```
+npm install -g vcse
+```
+You can then build your .VSIX file by invoking the `package` command in the root directory:
+```
+vsce package
+```
+
+Finally, you can install the extension in VSCode by invoking the `Extensions: Install from VSIX...` command in the Command Palette (Shift + Cmd + P on a Mac) and choosing the newly created .VSIX file from the dialog.
