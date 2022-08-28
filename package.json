@@ -1,6 +1,6 @@
 {
   "name": "project-switcher",
-  "displayName": "ProjectSwitcher",
+  "displayName": "Project Switcher",
   "description": "",
   "version": "0.0.1",
   "publisher": "brendanjbond",
@@ -22,7 +22,7 @@
       }
     ],
     "configuration": {
-      "title": "ProjectSwitcher",
+      "title": "Project Switcher",
       "properties": {
         "project-switcher.projectDirectory": {
           "type": "string",
@@ -30,7 +30,15 @@
           "description": "Specifies the parent directory from which the extension looks for project directories."
         }
       }
-    }
+    },
+    "keybindings": [
+      {
+        "command": "project-switcher.switch",
+        "key": "ctrl+;",
+        "mac": "cmd+;",
+        "when": "!inQuickOpen"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
