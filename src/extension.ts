@@ -36,13 +36,39 @@ export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
     "project-switcher.switch",
     () => {
+      // use Promise.resolve() to coerce Thenable (wich doesn't contain `catch` or `finally`) into a native Promise
       Promise.resolve(
         getQuickPickItems()
           .then((items) => vscode.window.showQuickPick(items))
           .then((item) => {
             if (item) {
               let uri = vscode.Uri.file(path.join(projectDirectory, item));
-              vscode.commands.executeCommand("vscode.openFolder", uri, true);
+              // check if there is a vscode workspace file
+              vscode.workspace.fs.readDirectory(uri).then((items) => {
+                const vsCodeWorkspaceFileTuple = items
+                  .filter(
+                    ([name, fileType]) => fileType === vscode.FileType.File
+                  )
+                  .find(([name]) => {
+                    // get file extension as hackily as possible
+                    const fileNameArr = name.split(".");
+                    const extension = fileNameArr[fileNameArr.length - 1];
+                    return extension === "code-workspace";
+                  });
+                if (vsCodeWorkspaceFileTuple) {
+                  vscode.commands.executeCommand(
+                    "vscode.openFolder",
+                    vscode.Uri.file(
+                      path.join(uri.fsPath, vsCodeWorkspaceFileTuple[0])
+                    ),
+                    { forceNewWindow: true }
+                  );
+                } else {
+                  vscode.commands.executeCommand("vscode.openFolder", uri, {
+                    forceNewWindow: true,
+                  });
+                }
+              });
             }
           })
       ).catch((err) => vscode.window.showErrorMessage(err));
