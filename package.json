@@ -4,6 +4,8 @@
   "description": "",
   "version": "0.0.1",
   "publisher": "brendanjbond",
+  "repository": "https://github.com/brendanbond/project-switcher",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.70.0"
   },
